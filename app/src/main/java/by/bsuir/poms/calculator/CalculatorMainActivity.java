@@ -6,16 +6,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class CalculatorMainActivity extends AppCompatActivity implements View.OnClickListener{
+import java.util.LinkedList;
 
-    Button button0, button1, button2, button3, button4, button5, button6, button7, button8, button9,
+public class CalculatorMainActivity extends AppCompatActivity {
+
+    private Button button0, button1, button2, button3, button4, button5, button6, button7, button8, button9,
             buttonLeftBracket, buttonRightBracket, buttonExponentiation, buttonDot, buttonFactorial,
             buttonSqrt, buttonPlus, buttonMinus, buttonMultiplication, buttonDivision,
-            buttonSin, buttonCos, buttonEqual;
+            buttonSin, buttonCos, buttonEqual, buttonErase, buttonReset;
 
-    TextView resultTextView;
+    private TextView resultTextView;
 
-    Float result = 0f;
+    private LinkedList<String> pressedButtonsKeys = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,62 +52,75 @@ public class CalculatorMainActivity extends AppCompatActivity implements View.On
         buttonSin = findViewById(R.id.button_sin);
         buttonCos = findViewById(R.id.button_cos);
         buttonEqual = findViewById(R.id.button_equal);
+        buttonErase = findViewById(R.id.button_erase);
+        buttonReset = findViewById(R.id.button_reset);
     }
 
     private void setOnClickListeners() {
-        button0.setOnClickListener(this);
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
-        button5.setOnClickListener(this);
-        button6.setOnClickListener(this);
-        button7.setOnClickListener(this);
-        button8.setOnClickListener(this);
-        button9.setOnClickListener(this);
-        buttonLeftBracket.setOnClickListener(this);
-        buttonRightBracket.setOnClickListener(this);
-        buttonExponentiation.setOnClickListener(this);
-        buttonDot.setOnClickListener(this);
-        buttonFactorial.setOnClickListener(this);
-        buttonSqrt.setOnClickListener(this);
-        buttonPlus.setOnClickListener(this);
-        buttonMinus.setOnClickListener(this);
-        buttonMultiplication.setOnClickListener(this);
-        buttonDivision.setOnClickListener(this);
-        buttonSin.setOnClickListener(this);
-        buttonCos.setOnClickListener(this);
-        buttonEqual.setOnClickListener(this);
+        button0.setOnClickListener(simpleButtonOnClickListener);
+        button1.setOnClickListener(simpleButtonOnClickListener);
+        button2.setOnClickListener(simpleButtonOnClickListener);
+        button3.setOnClickListener(simpleButtonOnClickListener);
+        button4.setOnClickListener(simpleButtonOnClickListener);
+        button5.setOnClickListener(simpleButtonOnClickListener);
+        button6.setOnClickListener(simpleButtonOnClickListener);
+        button7.setOnClickListener(simpleButtonOnClickListener);
+        button8.setOnClickListener(simpleButtonOnClickListener);
+        button9.setOnClickListener(simpleButtonOnClickListener);
+        buttonLeftBracket.setOnClickListener(simpleButtonOnClickListener);
+        buttonRightBracket.setOnClickListener(simpleButtonOnClickListener);
+        buttonExponentiation.setOnClickListener(simpleButtonOnClickListener);
+        buttonDot.setOnClickListener(simpleButtonOnClickListener);
+        buttonFactorial.setOnClickListener(simpleButtonOnClickListener);
+        buttonSqrt.setOnClickListener(simpleButtonOnClickListener);
+        buttonPlus.setOnClickListener(simpleButtonOnClickListener);
+        buttonMinus.setOnClickListener(simpleButtonOnClickListener);
+        buttonMultiplication.setOnClickListener(simpleButtonOnClickListener);
+        buttonDivision.setOnClickListener(simpleButtonOnClickListener);
+        buttonSin.setOnClickListener(simpleButtonOnClickListener);
+        buttonCos.setOnClickListener(simpleButtonOnClickListener);
+
+        buttonEqual.setOnClickListener(equalButtonOnClickListener);
+        buttonErase.setOnClickListener(eraseButtonOnClickListener);
+        buttonReset.setOnClickListener(resetButtonOnClickListener);
     }
 
-    @Override
-    public void onClick(View view) {
-        int clickedElementId = view.getId();
-        if (clickedElementId == R.id.button0 || clickedElementId == R.id.button1
-                || clickedElementId == R.id.button2 || clickedElementId == R.id.button3
-                || clickedElementId == R.id.button4 || clickedElementId == R.id.button5
-                || clickedElementId == R.id.button6 || clickedElementId == R.id.button7
-                || clickedElementId == R.id.button8 || clickedElementId == R.id.button9) {
-            onClickNumberButton(clickedElementId);
-        } else {
-            switch (clickedElementId) {
-                case R.id.button_left_bracket: break;
-                case R.id.button_right_bracket: break;
-                case R.id.button_exponentiation: break;
-                case R.id.button_dot: break;
-                case R.id.button_factorial: break;
-                case R.id.button_sqrt: break;
-                case R.id.button_plus: break;
-                case R.id.button_minus: break;
-                case R.id.button_multiplication: break;
-                case R.id.button_division: break;
-                case R.id.button_sin: break;
-                case R.id.button_cos: break;
-                case R.id.button_equal: break;
-            }
+    private void refreshViewedResult() {
+        StringBuilder viewedResultString = new StringBuilder();
+        for (String buttonKey : pressedButtonsKeys) {
+            viewedResultString.append(buttonKey);
         }
+        resultTextView.setText(viewedResultString);
     }
 
-    private void onClickNumberButton(int clickedElementId) {
+    private String calculate() {
+        Float result = 0f;
+
+        return result.toString();
     }
+
+    private final View.OnClickListener equalButtonOnClickListener = view -> {
+        String result = calculate();
+        pressedButtonsKeys.clear();
+        pressedButtonsKeys.add(result);
+        refreshViewedResult();
+    };
+
+    private final View.OnClickListener simpleButtonOnClickListener = view -> {
+        Button pressedButton = findViewById(view.getId());
+        pressedButtonsKeys.add(pressedButton.getText().toString());
+        refreshViewedResult();
+    };
+
+    private final View.OnClickListener resetButtonOnClickListener = view -> {
+        pressedButtonsKeys.clear();
+        refreshViewedResult();
+    };
+
+    private final View.OnClickListener eraseButtonOnClickListener = view -> {
+        if (!pressedButtonsKeys.isEmpty()) {
+            pressedButtonsKeys.removeLast();
+            refreshViewedResult();
+        }
+    };
 }
