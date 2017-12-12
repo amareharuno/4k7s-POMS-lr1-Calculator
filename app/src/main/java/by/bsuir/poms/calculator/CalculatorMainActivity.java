@@ -7,6 +7,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.LinkedList;
+import java.util.List;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 public class CalculatorMainActivity extends AppCompatActivity {
 
@@ -26,6 +31,60 @@ public class CalculatorMainActivity extends AppCompatActivity {
         getLinksOnViewComponents();
         setOnClickListeners();
     }
+
+    private void refreshViewedResult() {
+        resultTextView.setText(listToString(pressedButtonsKeys));
+    }
+
+    private String calculate(String expression) {
+//        Float result = 0f;
+        System.out.println(expression);
+
+        // todo: implement
+        Object result = null;
+        try {
+            ScriptEngineManager manager = new ScriptEngineManager();
+            ScriptEngine engine = manager.getEngineByName("js");
+            result = engine.eval("5+4*(7-15)");
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+
+        return "result";
+    }
+
+    private String listToString(List<String> list) {
+        StringBuilder resultString = new StringBuilder();
+        for (String element : list) {
+            resultString.append(element);
+        }
+        return resultString.toString();
+    }
+
+    private final View.OnClickListener equalButtonOnClickListener = view -> {
+        String result = calculate(listToString(pressedButtonsKeys));
+        pressedButtonsKeys.clear();
+        pressedButtonsKeys.add(result);
+        refreshViewedResult();
+    };
+
+    private final View.OnClickListener simpleButtonOnClickListener = view -> {
+        Button pressedButton = findViewById(view.getId());
+        pressedButtonsKeys.add(pressedButton.getText().toString());
+        refreshViewedResult();
+    };
+
+    private final View.OnClickListener resetButtonOnClickListener = view -> {
+        pressedButtonsKeys.clear();
+        refreshViewedResult();
+    };
+
+    private final View.OnClickListener eraseButtonOnClickListener = view -> {
+        if (!pressedButtonsKeys.isEmpty()) {
+            pressedButtonsKeys.removeLast();
+            refreshViewedResult();
+        }
+    };
 
     private void getLinksOnViewComponents() {
         resultTextView = findViewById(R.id.resultTextView);
@@ -84,43 +143,4 @@ public class CalculatorMainActivity extends AppCompatActivity {
         buttonErase.setOnClickListener(eraseButtonOnClickListener);
         buttonReset.setOnClickListener(resetButtonOnClickListener);
     }
-
-    private void refreshViewedResult() {
-        StringBuilder viewedResultString = new StringBuilder();
-        for (String buttonKey : pressedButtonsKeys) {
-            viewedResultString.append(buttonKey);
-        }
-        resultTextView.setText(viewedResultString);
-    }
-
-    private String calculate() {
-        Float result = 0f;
-
-        return result.toString();
-    }
-
-    private final View.OnClickListener equalButtonOnClickListener = view -> {
-        String result = calculate();
-        pressedButtonsKeys.clear();
-        pressedButtonsKeys.add(result);
-        refreshViewedResult();
-    };
-
-    private final View.OnClickListener simpleButtonOnClickListener = view -> {
-        Button pressedButton = findViewById(view.getId());
-        pressedButtonsKeys.add(pressedButton.getText().toString());
-        refreshViewedResult();
-    };
-
-    private final View.OnClickListener resetButtonOnClickListener = view -> {
-        pressedButtonsKeys.clear();
-        refreshViewedResult();
-    };
-
-    private final View.OnClickListener eraseButtonOnClickListener = view -> {
-        if (!pressedButtonsKeys.isEmpty()) {
-            pressedButtonsKeys.removeLast();
-            refreshViewedResult();
-        }
-    };
 }
