@@ -35,6 +35,9 @@ public class CalculatorMainActivity extends AppCompatActivity {
 
     private void refreshViewedResult() {
         resultTextView.setText(listToString(pressedButtonsKeys));
+        if (pressedButtonsKeys.isEmpty()) {
+            resultTextView.setText("0");
+        }
         horizontalScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
     }
 
@@ -42,6 +45,9 @@ public class CalculatorMainActivity extends AppCompatActivity {
         double result; // result can be in range: [-2147483648; 2147483647]
         int intResult;
 
+        if (expressionString.isEmpty()) {
+            return String.valueOf(0);
+        }
         Expression expression = new Expression(expressionString);
         result = expression.calculate();
 
@@ -82,7 +88,7 @@ public class CalculatorMainActivity extends AppCompatActivity {
         pressedButtonsKeys.add(result);
         refreshViewedResult();
 
-        if (result.equals("NaN")) {
+        if (result.equals("NaN") || result.equals("0")) {
             pressedButtonsKeys.clear();
         }
     };
