@@ -8,23 +8,46 @@
     android:orientation="vertical"
     tools:context="by.bsuir.poms.calculator.CalculatorMainActivity">
 
-    <TextView
-        android:id="@+id/resultTextView"
+    <!--<EditText
+        android:id="@+id/editText"
         android:layout_width="match_parent"
+        android:gravity="bottom"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="22345234356576879442445467"
+        android:singleLine="true"
+        android:textSize="48sp"
+        android:inputType="none"
+        android:background="@null"
+        android:cursorVisible="false"/>-->
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+        <TextView
+            android:id="@+id/resultTextView"
+            android:text=""
+            android:textSize="48sp"
+            android:singleLine="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </HorizontalScrollView>
 
     <GridLayout
         android:layout_width="match_parent"
         android:columnCount="5"
         android:rowCount="5"
         android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_weight="7">
 
         <!-- 0 row -->
         <Button
@@ -33,6 +56,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_exponentiation" />
         <Button
             android:id="@+id/button_left_bracket"
@@ -40,6 +64,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_left_bracket" />
         <Button
             android:id="@+id/button_right_bracket"
@@ -47,6 +72,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_right_bracket" />
         <Button
             android:id="@+id/button_reset"
@@ -54,14 +80,18 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:text="@string/button_reset" />
+            android:background="@drawable/operations_button_background"
+            android:text="@string/button_reset"
+            android:textColor="#3F51B5"/>
         <Button
             android:id="@+id/button_erase"
             android:layout_width="0dp"
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:text="@string/button_erase" />
+            android:background="@drawable/operations_button_background"
+            android:text="@string/button_erase"
+            android:textColor="#3F51B5"/>
 
         <!-- 1 row -->
         <Button
@@ -70,6 +100,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_sqrt" />
         <Button
             android:id="@+id/button_plus"
@@ -77,6 +108,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_plus" />
         <Button
             android:id="@+id/button1"
@@ -84,6 +116,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button1" />
         <Button
             android:id="@+id/button2"
@@ -91,6 +124,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button2" />
         <Button
             android:id="@+id/button3"
@@ -98,6 +132,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button3" />
 
         <!-- 2 row -->
@@ -107,6 +142,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_factorial" />
         <Button
             android:id="@+id/button_minus"
@@ -114,6 +150,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_minus" />
         <Button
             android:id="@+id/button4"
@@ -121,6 +158,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button4" />
         <Button
             android:id="@+id/button5"
@@ -128,6 +166,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button5" />
         <Button
             android:id="@+id/button6"
@@ -135,6 +174,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button6" />
 
         <!-- 3 row -->
@@ -144,6 +184,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_sin" />
         <Button
             android:id="@+id/button_multiplication"
@@ -151,6 +192,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_multiplication" />
         <Button
             android:id="@+id/button7"
@@ -158,6 +200,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button7" />
         <Button
             android:id="@+id/button8"
@@ -165,6 +208,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button8" />
         <Button
             android:id="@+id/button9"
@@ -172,6 +216,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button9" />
 
         <!-- 0 row -->
@@ -181,6 +226,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_cos" />
         <Button
             android:id="@+id/button_division"
@@ -188,6 +234,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_division" />
         <Button
             android:id="@+id/button_dot"
@@ -195,6 +242,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/operations_button_background"
             android:text="@string/button_dot" />
         <Button
             android:id="@+id/button0"
@@ -202,6 +250,7 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
+            android:background="@drawable/numbers_buttons_background"
             android:text="@string/button0" />
         <Button
             android:id="@+id/button_equal"
@@ -209,7 +258,9 @@
             android:layout_columnWeight="1"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:text="@string/button_equal" />
+            android:background="@drawable/equal_button_background"
+            android:text="@string/button_equal"
+            android:textColor="#FFFFFF"/>
     </GridLayout>
 
 </LinearLayout>

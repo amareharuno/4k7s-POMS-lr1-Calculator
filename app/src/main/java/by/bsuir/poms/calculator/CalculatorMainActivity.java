@@ -4,16 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
+
+import org.mariuszgromada.math.mxparser.Expression;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
 public class CalculatorMainActivity extends AppCompatActivity {
+
+    private HorizontalScrollView horizontalScrollView;
 
     private Button button0, button1, button2, button3, button4, button5, button6, button7, button8, button9,
             buttonLeftBracket, buttonRightBracket, buttonExponentiation, buttonDot, buttonFactorial,
@@ -34,23 +35,22 @@ public class CalculatorMainActivity extends AppCompatActivity {
 
     private void refreshViewedResult() {
         resultTextView.setText(listToString(pressedButtonsKeys));
+        horizontalScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
     }
 
-    private String calculate(String expression) {
-//        Float result = 0f;
-        System.out.println(expression);
+    private String calculate(String expressionString) {
+        double result; // result can be in range: [-2147483648; 2147483647]
+        int intResult;
 
-        // todo: implement
-        Object result = null;
-        try {
-            ScriptEngineManager manager = new ScriptEngineManager();
-            ScriptEngine engine = manager.getEngineByName("js");
-            result = engine.eval("5+4*(7-15)");
-        } catch (ScriptException e) {
-            e.printStackTrace();
+        Expression expression = new Expression(expressionString);
+        result = expression.calculate();
+
+        if (result % 1 == 0) {
+            intResult = (int) result;
+            return String.valueOf(intResult);
+        } else {
+            return String.valueOf(result);
         }
-
-        return "result";
     }
 
     private String listToString(List<String> list) {
@@ -61,17 +61,30 @@ public class CalculatorMainActivity extends AppCompatActivity {
         return resultString.toString();
     }
 
+    private final View.OnClickListener simpleButtonOnClickListener = view -> {
+        if (pressedButtonsKeys.size() < 15) { // restriction on the number of entered operations and numbers
+            Button pressedButton = findViewById(view.getId());
+            String pressedButtonValue = pressedButton.getText().toString();
+            if (pressedButtonValue.equals(ButtonKeys.BUTTON_SIN)
+                    || pressedButtonValue.equals(ButtonKeys.BUTTON_COS)
+                    || pressedButtonValue.equals(ButtonKeys.BUTTON_SQRT)) {
+                pressedButtonsKeys.add(pressedButtonValue.toLowerCase() + ButtonKeys.BUTTON_LEFT_BRACKET);
+            } else {
+                pressedButtonsKeys.add(pressedButtonValue.toLowerCase());
+            }
+            refreshViewedResult();
+        }
+    };
+
     private final View.OnClickListener equalButtonOnClickListener = view -> {
         String result = calculate(listToString(pressedButtonsKeys));
         pressedButtonsKeys.clear();
         pressedButtonsKeys.add(result);
         refreshViewedResult();
-    };
 
-    private final View.OnClickListener simpleButtonOnClickListener = view -> {
-        Button pressedButton = findViewById(view.getId());
-        pressedButtonsKeys.add(pressedButton.getText().toString());
-        refreshViewedResult();
+        if (result.equals("NaN")) {
+            pressedButtonsKeys.clear();
+        }
     };
 
     private final View.OnClickListener resetButtonOnClickListener = view -> {
@@ -87,6 +100,8 @@ public class CalculatorMainActivity extends AppCompatActivity {
     };
 
     private void getLinksOnViewComponents() {
+//        resultTextView = findViewById(R.id.editText);
+        horizontalScrollView = findViewById(R.id.horizontalScrollView);
         resultTextView = findViewById(R.id.resultTextView);
         button0 = findViewById(R.id.button0);
         button1 = findViewById(R.id.button1);
