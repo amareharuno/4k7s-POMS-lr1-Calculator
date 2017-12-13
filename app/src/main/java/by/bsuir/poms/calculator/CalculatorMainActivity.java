@@ -62,7 +62,7 @@ public class CalculatorMainActivity extends AppCompatActivity {
     }
 
     private final View.OnClickListener simpleButtonOnClickListener = view -> {
-        if (pressedButtonsKeys.size() < 15) { // restriction on the number of entered operations and numbers
+        if (pressedButtonsKeys.size() < 20) { // restriction on the number of entered operations and numbers
             Button pressedButton = findViewById(view.getId());
             String pressedButtonValue = pressedButton.getText().toString();
             if (pressedButtonValue.equals(ButtonKeys.BUTTON_SIN)
